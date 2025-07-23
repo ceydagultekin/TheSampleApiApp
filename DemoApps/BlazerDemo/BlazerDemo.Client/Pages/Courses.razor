@@ -1,0 +1,51 @@
+﻿@page "/courses"
+@using BlazerDemo.Client.Models
+@using System.Text.Json
+@inject HttpClient client
+@rendermode InteractiveAuto
+
+<h3>Courses</h3>
+
+@if (courses is null)
+{
+	<p>Loading...</p>
+}
+else if (!courses.Any())
+{
+	<p>No courses available.</p>
+}
+else
+{
+	@foreach(var course in courses)
+	{
+		<a href="@course.CourseUrl">
+			<img src="@course.CourseImage" width="300" alt="@course.CourseName " />
+		</a>
+	}
+}
+
+
+
+
+@code {
+	private List<CourseModel>? courses;
+	private readonly JsonSerializerOptions options = new()
+	{
+		PropertyNameCaseInsensitive = true
+	};
+
+	protected override async Task OnInitializedAsync()
+	{
+		try
+		{
+			courses = await client.GetFromJsonAsync<List<CourseModel>>("/courses", options) ?? new();
+
+		}
+		catch(Exception ex)
+		{
+			Console.WriteLine($"Error fetching courses: {ex.Message}");
+			courses = new();
+		}
+	
+	}
+}
