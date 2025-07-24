@@ -39,6 +39,7 @@
             courseImage.Location = new Point(152, 67);
             courseImage.Name = "courseImage";
             courseImage.Size = new Size(483, 274);
+            courseImage.SizeMode = PictureBoxSizeMode.Zoom;
             courseImage.TabIndex = 0;
             courseImage.TabStop = false;
             // 
